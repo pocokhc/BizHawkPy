@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Version>1.0.0.0</Version>
+		<LangVersion>10</LangVersion>
+		<Nullable>enable</Nullable>
+		<TargetFramework>net48</TargetFramework>
+		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(BIZHAWK_HOME)' == '' ">
+		<BIZHAWK_HOME>$(ProjectDir)../BizHawk/</BIZHAWK_HOME>
+		<!-- if building EmuHawk from source, point to e.g. `$(ProjectDir)../BizHawk/output/` -->
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(BIZHAWK_DATA_HOME)' == '' ">
+		<BIZHAWK_DATA_HOME>$(BIZHAWK_HOME)</BIZHAWK_DATA_HOME>
+		<!-- ignore this; on NixOS these are different dirs -->
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="_PyRunner.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+		<PackageReference Include="System.Resources.Extensions" Version="4.7.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="PresentationFramework">
+		  <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\PresentationFramework.dll</HintPath>
+		</Reference>
+		<Reference Include="System.Windows.Forms" />
+		<Reference Include="BizHawk.Bizware.Graphics" HintPath="$(BIZHAWK_HOME)dll/BizHawk.Bizware.Graphics.dll" />
+		<Reference Include="BizHawk.Client.Common" HintPath="$(BIZHAWK_HOME)dll/BizHawk.Client.Common.dll" />
+		<Reference Include="BizHawk.Client.EmuHawk" HintPath="$(BIZHAWK_HOME)EmuHawk.exe" />
+		<Reference Include="BizHawk.Common" HintPath="$(BIZHAWK_HOME)dll/BizHawk.Common.dll" />
+		<Reference Include="BizHawk.Emulation.Common" HintPath="$(BIZHAWK_HOME)dll/BizHawk.Emulation.Common.dll" />
+		<Reference Include="BizHawk.WinForms.Controls" HintPath="$(BIZHAWK_HOME)dll/BizHawk.WinForms.Controls.dll" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="UiMenu.cs" />
+	  <Compile Update="UiLogWindow.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="icon.ico" />
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Copy SourceFiles="$(OutputPath)$(MSBuildProjectName).dll" DestinationFolder="$(BIZHAWK_DATA_HOME)ExternalTools" />
+	</Target>
+
+	<!-- Python Package -->
+	<ItemGroup>
+		<PythonFiles Include="$(MSBuildThisFileDirectory)../py/*.py" />
+	</ItemGroup>
+	<Target Name="CopyPythonFiles" AfterTargets="Build">
+		<Copy SourceFiles="@(PythonFiles)" DestinationFolder="$(BIZHAWK_DATA_HOME)ExternalTools" />
+	</Target>
+	<!-- Python Package -->
+</Project>
