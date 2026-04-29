@@ -9,8 +9,8 @@ _*.*
 _*/
 
 # --- BizHawk
-BizHawk/
-BizHawk_*/
+BizHawk*/
+!BizHawkPy/
 
 # --- py
 !__init__.py
@@ -19,6 +19,7 @@ BizHawk_*/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+!.vscode/tasks.json
 
 # --- sphinx
 !docs/_*/
