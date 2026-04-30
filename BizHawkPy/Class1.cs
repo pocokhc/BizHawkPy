@@ -76,9 +76,9 @@ public sealed class MainConsole : ToolFormBase, IExternalToolForm, IToolFormAuto
     [ConfigPersist]
     public int LogWindowY { get; set; } = 0;
     [ConfigPersist]
-    public int LogWindowWidth { get; set; } = 600;
+    public int LogWindowWidth { get; set; } = 800;
     [ConfigPersist]
-    public int LogWindowHeight { get; set; } = 400;
+    public int LogWindowHeight { get; set; } = 300;
 
     // UI
     internal readonly UiMenu uiMenu;

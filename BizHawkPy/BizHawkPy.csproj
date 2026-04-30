@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Version>1.0.0.0</Version>
+		<Version>0.0.1.0</Version>
 		<LangVersion>10</LangVersion>
 		<Nullable>enable</Nullable>
 		<TargetFramework>net48</TargetFramework>
@@ -60,7 +60,7 @@
 		<PythonFiles Include="$(MSBuildThisFileDirectory)../py/*.py" />
 	</ItemGroup>
 	<Target Name="CopyPythonFiles" AfterTargets="Build">
-		<Copy SourceFiles="@(PythonFiles)" DestinationFolder="$(BIZHAWK_DATA_HOME)ExternalTools" />
+		<Copy SourceFiles="@(PythonFiles)" DestinationFolder="$(BIZHAWK_DATA_HOME)ExternalTools/BizHawkPy/" />
 	</Target>
 	<!-- Python Package -->
 </Project>

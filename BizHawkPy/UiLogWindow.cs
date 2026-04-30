@@ -119,8 +119,8 @@ class UiLogWindow : Form
         _top = top;
 
         Text = "BizHawkPy Log";
-        Width = 1000;
-        Height = 400;
+        Width = 800;
+        Height = 300;
 
         Controls.Add(_logBox);
         Controls.Add(_buttonPanel);

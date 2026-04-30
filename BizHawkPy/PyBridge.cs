@@ -85,6 +85,7 @@ internal class PyBridge : IDisposable
         {
             _StartCore();
             Volatile.Write(ref _state, (int)ProcState.Running);
+            Update();  // 初回実行
         }
         catch
         {
@@ -102,7 +103,7 @@ internal class PyBridge : IDisposable
         var testPsi = new ProcessStartInfo
         {
             FileName = _top.uiPyInterpreter.PythonPath,
-            Arguments = $"ExternalTools/bizhawk_main.py TEST",
+            Arguments = $"ExternalTools/BizHawkPy/bizhawk_main.py TEST",
             WorkingDirectory = exeDir,
             UseShellExecute = false,
             CreateNoWindow = true,
@@ -136,7 +137,7 @@ internal class PyBridge : IDisposable
         logger.Log($"[SYSTEM] Exec: \"{Path}\" \"{PythonArgs}\"");
         var args = new List<string>
         {
-            "ExternalTools/bizhawk_main.py",
+            "ExternalTools/BizHawkPy/bizhawk_main.py",
             $"\"{Convert.ToBase64String(Encoding.UTF8.GetBytes(Path))}\""
         };
         if (!string.IsNullOrEmpty(PythonArgs))
@@ -190,7 +191,6 @@ internal class PyBridge : IDisposable
 
         logger.Log($"[SYSTEM][{Name}] Process started. (PID: {proc.Id})");
         _proc_id = proc.Id;
-        Update();
     }
     public void Dispose() { Stop(); }
 

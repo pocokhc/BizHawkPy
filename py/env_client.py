@@ -30,10 +30,6 @@ class IProcessor(ABC):
     # ------------------------------------------
     # BizHawkEnv function
     # ------------------------------------------
-    @abstractmethod
-    def openrom(self):
-        raise NotImplementedError()
-
     def setup(self, info: dict):
         pass
 
@@ -138,11 +134,12 @@ class RPCClient:
 
 def run(processor: object | IProcessor):
     processor = cast(IProcessor, processor)
-    client.openrom(processor.rom)
+    print(f"rom          : {processor.rom}")
+    assert client.openrom(processor.rom)
 
     platform = emu.getsystemid()
     hash_ = gameinfo.getromhash()
-    print(f"rom          : {gameinfo.getromname()}")
+    print(f"romname      : {gameinfo.getromname()}")
     print(f"platform     : {platform}")
     hash_str = hash_
     if hasattr(processor, "rom_hash"):
