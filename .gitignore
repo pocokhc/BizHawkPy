@@ -9,8 +9,8 @@ _*.*
 _*/
 
 # --- BizHawk
-BizHawk*/
-!BizHawkPy/
+BizHawk/
+BizHawk-*/
 
 # --- py
 !__init__.py
