@@ -8,7 +8,7 @@ function Build-Version {
     $resolvedBizHawkPath = Resolve-Path $BizHawkPath -ErrorAction Stop
     Write-Host "[INFO] Building $resolvedBizHawkPath"
     dotnet build -c Release /p:BIZHAWK_HOME="$resolvedBizHawkPath/"
-    Start-Sleep -Seconds 1
+    Start-Sleep -Seconds 2
 
     $externalToolsPath = Join-Path $resolvedBizHawkPath "ExternalTools"
 
