@@ -55,6 +55,7 @@ import env_client  # noqa: E402
 
 client: Any = types.ModuleType("env_client")
 client.run = env_client.run
+client.IGameController = env_client.IGameController
 sys.modules["env_client"] = client
 
 

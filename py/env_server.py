@@ -47,11 +47,12 @@ class BizHawkEnv(gym.Env):
         step_speed: int = 800,
         pause_before_reset: bool = False,
         pause_after_reset: bool = False,
-        user_data: str = "",
+        user_data: Any = None,
         debug: bool = False,
         #
-        render_mode: str | None = None,
-        display_name: str = "",
+        render_mode: str | None = None,  # gym
+        #
+        display_name: str = "",  # srl
         **kwargs,
     ):
         self.render_mode = render_mode

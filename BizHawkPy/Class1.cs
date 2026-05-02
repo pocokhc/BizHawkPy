@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace BizHawkPy;
 
-[ExternalTool("Python Console")]
+[ExternalTool("BizHawkPy")]
 [ExternalToolEmbeddedIcon("BizHawkPy.icon.ico")]
 public sealed class MainConsole : ToolFormBase, IExternalToolForm, IToolFormAutoConfig
 {
@@ -28,7 +28,7 @@ public sealed class MainConsole : ToolFormBase, IExternalToolForm, IToolFormAuto
     internal ApiContainer APIs => _maybeAPIContainer!;
 
     // title
-    private string _title = "PythonConsole";
+    private string _title = "BizHawkPy";
     protected override string WindowTitleStatic => _title;
 
     // Config

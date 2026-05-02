@@ -5,7 +5,7 @@ import traceback
 import weakref
 from abc import ABC, abstractmethod
 from multiprocessing.connection import Client
-from typing import Any, Literal, Optional, cast
+from typing import Any, Literal, Optional
 
 from bizhawk_api import client, emu, gameinfo, memory, savestate
 
@@ -19,13 +19,12 @@ except ModuleNotFoundError:
 ObservationTypes = Literal["VALUE", "IMAGE", "BOTH", "RAM"]
 
 
-class IProcessor(ABC):
+class IGameController(ABC):
     def __init__(self) -> None:
-        # required
-        self.action_space = gym.spaces.Discrete(2)
-        self.observation_space = gym.spaces.Discrete(2)
-        self.rom: str
-        self.rom_hash: str  # option
+        self.action_space: gym.Space = None  # type: ignore
+        self.observation_space: gym.Space = None  # type: ignore
+        self.rom: str = None  # type: ignore
+        self.rom_hash: str = ""  # option
 
     # ------------------------------------------
     # BizHawkEnv function
@@ -132,8 +131,14 @@ class RPCClient:
             raise RuntimeError(f"Unexpected RPC error: {e}") from e
 
 
-def run(processor: object | IProcessor):
-    processor = cast(IProcessor, processor)
+def run(processor: IGameController):
+    if processor.action_space is None:
+        raise NotImplementedError()
+    if processor.observation_space is None:
+        raise NotImplementedError()
+    if processor.rom is None:
+        raise NotImplementedError()
+
     print(f"rom          : {processor.rom}")
     assert client.openrom(processor.rom)
 
