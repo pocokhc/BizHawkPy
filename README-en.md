@@ -27,7 +27,7 @@ There are two installation methods:
 ### Build environment
 
 - windows11
-- BizHawk v2.10.0 / v2.9.1
+- BizHawk v2.9.1 / v2.10.0 / v2.11.1
 
 ### Steps
 
@@ -146,7 +146,7 @@ For usage examples, see:
 | --------- | ---: | ---: | ---: | ---: | -: |
 | bit       |    - |    - | - |    - | Implementable in Python|
 | bizstring |    - |    - | - |    - | Implementable in Python|
-| client    |   59 |   48 | 0 |  81% | |
+| client    |   59 |   47 | 0 |  80% | |
 | comm      |   33 |   30 | 1 |  94% | |
 | console   |    5 |    4 | 1 | 100% | Replaced by BizHawkPy console |
 | emu       |   19 |   17 | 1 |  95% | emu.emu.yield not implemented |

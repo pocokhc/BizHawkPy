@@ -175,9 +175,10 @@ internal static class Client
 
             ["client.invisibleemulation"] = (apis, bridge, args) =>
             {
-                var invisible = Utils.Parse<bool>(args, 0);
-                apis.EmuClient.InvisibleEmulation(invisible);
-                bridge.CmdReturn("None", typeof(string));
+                throw new NotImplementedException();
+                //var invisible = Utils.Parse<bool>(args, 0);
+                //apis.EmuClient.InvisibleEmulation(invisible);
+                //bridge.CmdReturn("None", typeof(string));
             },
 
             ["client.ispaused"] = (apis, bridge, args) =>
