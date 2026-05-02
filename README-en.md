@@ -4,7 +4,7 @@
 
 # BizHawkPy
 
-BizHawkPy is an external tool for BizHawk that enables controlling the emulator and retrieving information from Python.  
+BizHawkPy is an external tool for [BizHawk](https://github.com/TASEmulators/BizHawk) that enables controlling the emulator and retrieving information from Python.  
 It functions as a Python equivalent of the existing Lua Console.  
   
 It also provides integration code for [Gymnasium](https://github.com/Farama-Foundation/Gymnasium/tree/main), a standard API for reinforcement learning.  

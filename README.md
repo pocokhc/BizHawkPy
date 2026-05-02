@@ -4,7 +4,7 @@
 
 # BizHawkPy
 
-BizHawkPy は、BizHawk 用の外部ツール（External Tool）として動作し、Pythonからエミュレータの操作や情報取得を可能にするツールです。
+BizHawkPy は、[BizHawk](https://github.com/TASEmulators/BizHawk) 用の外部ツール（External Tool）として動作し、Pythonからエミュレータの操作や情報取得を可能にするツールです。
 既存の Lua Console の Python 版として機能します。
 
 また、強化学習用の標準APIを提供する [Gymnasium](https://github.com/Farama-Foundation/Gymnasium/tree/main) との連携コードも提供しています。
