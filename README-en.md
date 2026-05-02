@@ -32,7 +32,7 @@ There are two installation methods:
 ### Steps
 
 1. Download BizHawk to any location
-2. Extract the distributed ZIP and place it under the `ExternalTools` directory:
+2. [Extract the distributed ZIP](https://github.com/pocokhc/BizHawkPy/releases) and place it under the `ExternalTools` directory:
 
 ```text
 BizHawk/
