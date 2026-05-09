@@ -42,12 +42,12 @@ internal static class Client
             ["client.clearautohold"] = (apis, bridge, args) =>
             {
                 apis.EmuClient.ClearAutohold();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["client.closerom"] = (apis, bridge, args) =>
             {
                 apis.EmuClient.CloseRom();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["client.createinstance"] = (apis, bridge, args) =>
             {
@@ -61,14 +61,14 @@ internal static class Client
             {
                 var value = Utils.Parse<bool>(args, 0);
                 apis.EmuClient.DisplayMessages(value);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.enablerewind"] = (apis, bridge, args) =>
             {
                 var enabled = Utils.Parse<bool>(args, 0);
                 apis.EmuClient.EnableRewind(enabled);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.exactsleep"] = (apis, bridge, args) =>
@@ -76,14 +76,14 @@ internal static class Client
                 throw new NotImplementedException();
                 //var ms = Parse<int>(args, 0);
                 //apis.EmuClient.ExactSleep(ms);
-                //bridge.CmdReturn("None", typeof(string));
+                //bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.exit"] = (apis, bridge, args) =>
             {
                 throw new NotImplementedException();
                 //apis.EmuClient.Exit();
-                //bridge.CmdReturn("None", typeof(string));
+                //bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.exitCode"] = (apis, bridge, args) =>
@@ -91,14 +91,14 @@ internal static class Client
                 throw new NotImplementedException();
                 //var code = Parse<int>(args, 0);
                 //apis.EmuClient.ExitCode(code);
-                //bridge.CmdReturn("None", typeof(string));
+                //bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.frameskip"] = (apis, bridge, args) =>
             {
                 var num = Utils.Parse<int>(args, 0);
                 apis.EmuClient.FrameSkip(num);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.get_approx_framerate"] = (apis, bridge, args) =>
@@ -147,7 +147,7 @@ internal static class Client
 
                 if (tool == null)
                 {
-                    bridge.CmdReturn("None", typeof(string));
+                    bridge.CmdReturn(null, typeof(void));
                     return;
                 }
 
@@ -178,7 +178,7 @@ internal static class Client
                 throw new NotImplementedException();
                 //var invisible = Utils.Parse<bool>(args, 0);
                 //apis.EmuClient.InvisibleEmulation(invisible);
-                //bridge.CmdReturn("None", typeof(string));
+                //bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.ispaused"] = (apis, bridge, args) =>
@@ -202,25 +202,25 @@ internal static class Client
             ["client.opencheats"] = (apis, bridge, args) =>
             {
                 apis.Tool.OpenCheats();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.openhexeditor"] = (apis, bridge, args) =>
             {
                 apis.Tool.OpenHexEditor();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.openramsearch"] = (apis, bridge, args) =>
             {
                 apis.Tool.OpenRamSearch();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.openramwatch"] = (apis, bridge, args) =>
             {
                 apis.Tool.OpenRamWatch();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.openrom"] = (apis, bridge, args) =>
@@ -233,31 +233,31 @@ internal static class Client
             ["client.opentasstudio"] = (apis, bridge, args) =>
             {
                 apis.Tool.OpenTasStudio();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.opentoolbox"] = (apis, bridge, args) =>
             {
                 apis.Tool.OpenToolBox();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.opentracelogger"] = (apis, bridge, args) =>
             {
                 apis.Tool.OpenTraceLogger();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.pause"] = (apis, bridge, args) =>
             {
                 apis.EmuClient.Pause();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.pause_av"] = (apis, bridge, args) =>
             {
                 apis.EmuClient.PauseAv();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.reboot_core"] = (apis, bridge, args) =>
@@ -271,13 +271,13 @@ internal static class Client
                 throw new NotImplementedException();
                 //var code = Parse<string>(args, 0);
                 //apis.Tool.Remove(code);
-                //bridge.CmdReturn("None", typeof(string));
+                //bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.saveram"] = (apis, bridge, args) =>
             {
                 apis.EmuClient.SaveRam();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.screenheight"] = (apis, bridge, args) =>
@@ -290,13 +290,13 @@ internal static class Client
             {
                 var path = Utils.Parse<string?>(args, 0);
                 apis.EmuClient.Screenshot(path);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.screenshottoclipboard"] = (apis, bridge, args) =>
             {
                 apis.EmuClient.ScreenshotToClipboard();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.screenwidth"] = (apis, bridge, args) =>
@@ -313,7 +313,7 @@ internal static class Client
                 var b = Utils.Parse<int>(args, 3);
 
                 apis.EmuClient.SetClientExtraPadding(l, t, r, b);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.SetGameExtraPadding"] = (apis, bridge, args) =>
@@ -324,28 +324,28 @@ internal static class Client
                 var b = Utils.Parse<int>(args, 3);
 
                 apis.EmuClient.SetGameExtraPadding(l, t, r, b);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.setscreenshotosd"] = (apis, bridge, args) =>
             {
                 var value = Utils.Parse<bool>(args, 0);
                 apis.EmuClient.SetScreenshotOSD(value);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.SetSoundOn"] = (apis, bridge, args) =>
             {
                 var enable = Utils.Parse<bool>(args, 0);
                 apis.EmuClient.SetSoundOn(enable);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.settargetscanlineintensity"] = (apis, bridge, args) =>
             {
                 var val = Utils.Parse<int>(args, 0);
                 apis.EmuClient.SetTargetScanlineIntensity(val);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
 
@@ -353,7 +353,7 @@ internal static class Client
             {
                 var size = Utils.Parse<int>(args, 0);
                 apis.EmuClient.SetWindowSize(size);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.sleep"] = (apis, bridge, args) =>
@@ -361,19 +361,19 @@ internal static class Client
                 throw new NotImplementedException();
                 //var ms = Parse<int>(args, 0);
                 //apis.EmuClient.Sleep(ms);
-                //bridge.CmdReturn("None", typeof(string));
+                //bridge.CmdReturn(null, typeof(void));
             },
 
             ["client.speedmode"] = (apis, bridge, args) =>
             {
                 var percent = Utils.Parse<int>(args, 0);
                 apis.EmuClient.SpeedMode(percent);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["client.togglepause"] = (apis, bridge, args) =>
             {
                 apis.EmuClient.TogglePause();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["client.transformPoint"] = (apis, bridge, args) =>
             {
@@ -396,7 +396,7 @@ internal static class Client
             ["client.unpause_av"] = (apis, bridge, args) =>
             {
                 apis.EmuClient.UnpauseAv();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["client.xpos"] = (apis, bridge, args) =>
             {

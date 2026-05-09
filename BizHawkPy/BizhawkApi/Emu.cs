@@ -21,7 +21,7 @@ internal static class Emu
             {
                 var enabled = Utils.Parse<bool>(args, 0);
                 apis.Emulation.DisplayVsync(enabled);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["emu.frameadvance"] = (apis, bridge, args) =>
             {

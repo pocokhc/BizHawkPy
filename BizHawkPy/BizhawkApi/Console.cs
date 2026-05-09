@@ -12,25 +12,25 @@ internal static class Console
             ["console.clear"] = (apis, bridge, args) =>
             {
                 bridge._top.uiLogWindow.ClearLog();
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["console.log"] = (apis, bridge, args) =>
             {
                 var text = Utils.Parse<string>(args, 0);
                 bridge._top.uiLogWindow.Append(text);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["console.writeline"] = (apis, bridge, args) =>
             {
                 var text = Utils.Parse<string>(args, 0);
                 bridge._top.uiLogWindow.Append(text);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["console.write"] = (apis, bridge, args) =>
             {
                 var text = Utils.Parse<string>(args, 0);
                 bridge._top.uiLogWindow.Append(text);
-                bridge.CmdReturn("None", typeof(string));
+                bridge.CmdReturn(null, typeof(void));
             },
             ["console.getluafunctionslist"] = (apis, bridge, args) =>
             {
