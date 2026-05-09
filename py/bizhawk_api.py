@@ -1671,30 +1671,13 @@ userdata = UserData
 # ================================
 class Utils:
     @staticmethod
-    def set_key(key: str, *, frameadvance: bool = False, keep: bool = False) -> None:
-        jkeys = joypad.get()
-        if not keep:
-            for k in jkeys.keys():
-                if isinstance(jkeys[k], bool):
-                    jkeys[k] = False
-        if key in jkeys:
-            if isinstance(jkeys[key], bool):
-                jkeys[key] = True
-        joypad.set(jkeys)
+    def set_key(key: str, *, frameadvance: bool = False) -> None:
+        joypad.set({key: True})
         if frameadvance:
             emu.frameadvance()
 
     @staticmethod
-    def set_keys(keys: list[str], *, frameadvance: bool = False, keep: bool = False) -> None:
-        jkeys = joypad.get()
-        if not keep:
-            for k in jkeys.keys():
-                if isinstance(jkeys[k], bool):
-                    jkeys[k] = False
-        for k in keys:
-            if k in jkeys:
-                if isinstance(jkeys[k], bool):
-                    jkeys[k] = True
-        joypad.set(jkeys)
+    def set_keys(keys: list[str], *, frameadvance: bool = False) -> None:
+        joypad.set({k: True for k in keys})
         if frameadvance:
             emu.frameadvance()
