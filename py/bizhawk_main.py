@@ -63,8 +63,8 @@ sys.modules["env_client"] = client
 # ================================
 # main
 # ================================
-def _bizhawk_console_print(*args: object, end: str = "\n", **kwargs: object) -> None:
-    text = " ".join(map(str, args))
+def _bizhawk_console_print(*args: object, sep: str = " ", end: str = "\n") -> None:
+    text = sep.join(map(str, args))
     sys.stderr.write(text + end)
     # sys.stderr.flush()
 
@@ -76,7 +76,7 @@ def _bizhawk_console_pprint(obj: Any, *, end: str = "\n", **kwargs: Any) -> None
 
 
 def _dummy_input(*args: object, **kwargs: object) -> None:
-    print("Standard input is reserved for communication with BizHawk and cannot be used here.", file=sys.stderr, flush=True)
+    console_print("Standard input is reserved for communication with BizHawk and cannot be used here.")
 
 
 @contextmanager
@@ -103,7 +103,7 @@ def run_with_injected_module(path: str, args: list[str]):
 
 def main():
     if len(sys.argv) < 2:
-        print("ERROR: No argument received", file=sys.stderr)
+        console_print("ERROR: No argument received")
         sys.exit(1)
     path: str = sys.argv[1]
     if path == "TEST":  # 実行確認用
@@ -122,6 +122,6 @@ if __name__ == "__main__":
     try:
         main()
     except Exception:
-        print(traceback.format_exc(), file=sys.stderr)
+        console_print(traceback.format_exc())
     finally:
         sys.stderr.flush()
