@@ -27,7 +27,7 @@ internal class PyBridge : IDisposable
     {
         None,
         Frameadvance,
-        LoadSlot,
+        WaitingNextUpdate,
     }
     internal UpdateCrossingState crossingState { get; set; } = UpdateCrossingState.None;
 
@@ -308,7 +308,7 @@ internal class PyBridge : IDisposable
                 crossingState = UpdateCrossingState.None;
                 CmdReturn(null, typeof(void));
             }
-            else if (crossingState == UpdateCrossingState.LoadSlot)
+            else if (crossingState == UpdateCrossingState.WaitingNextUpdate)
             {
                 crossingState = UpdateCrossingState.None;
                 CmdReturn(null, typeof(void));

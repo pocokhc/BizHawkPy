@@ -262,8 +262,12 @@ internal static class Client
 
             ["client.reboot_core"] = (apis, bridge, args) =>
             {
-                apis.EmuClient.RebootCore();
-                bridge.CmdReturn("None", typeof(string));
+                // 特殊処理
+                bridge.crossingState = PyBridge.UpdateCrossingState.WaitingNextUpdate;
+                bridge._top.InvokeOnMain(() =>
+                {
+                    apis.EmuClient.RebootCore();
+                });
             },
 
             ["client.removecheat"] = (apis, bridge, args) =>
@@ -390,8 +394,12 @@ internal static class Client
             },
             ["client.unpause"] = (apis, bridge, args) =>
             {
-                apis.EmuClient.Unpause();
-                bridge.CmdReturn("None", typeof(string));
+                // 特殊処理
+                bridge.crossingState = PyBridge.UpdateCrossingState.WaitingNextUpdate;
+                bridge._top.InvokeOnMain(() =>
+                {
+                    apis.EmuClient.Unpause();
+                });
             },
             ["client.unpause_av"] = (apis, bridge, args) =>
             {

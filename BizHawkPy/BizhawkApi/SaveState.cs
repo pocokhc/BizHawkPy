@@ -13,7 +13,7 @@ internal static class SaveState
                 var suppressOsd = Utils.Parse<bool?>(args, 1) ?? false;
 
                 // 特殊処理
-                bridge.crossingState = PyBridge.UpdateCrossingState.LoadSlot;
+                bridge.crossingState = PyBridge.UpdateCrossingState.WaitingNextUpdate;
                 bridge._top.InvokeOnMain(() =>
                 {
                     apis.SaveState.Load(path, suppressOsd);
@@ -26,7 +26,7 @@ internal static class SaveState
                 var suppressOsd = Utils.Parse<bool?>(args, 1) ?? false;
 
                 // 特殊処理
-                bridge.crossingState = PyBridge.UpdateCrossingState.LoadSlot;
+                bridge.crossingState = PyBridge.UpdateCrossingState.WaitingNextUpdate;
                 bridge._top.InvokeOnMain(() =>
                 {
                     apis.SaveState.LoadSlot(slot, suppressOsd);
