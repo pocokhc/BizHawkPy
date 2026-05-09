@@ -70,7 +70,7 @@ cd BizHawkPy
 dotnet build -c Release /p:BIZHAWK_HOME="BizHawk のディレクトリパス"
 ```
   
-ルド成功後、BizHawk の `ExternalTools` ディレクトリに関連ファイルが出力されます。
+ビルド成功後、BizHawk の `ExternalTools` ディレクトリに関連ファイルが出力されます。
 
 
 # 2. 使い方
@@ -156,8 +156,8 @@ while True:
 | gui       |   28 |   25 | 0 |  89% | |
 | input     |    3 |    - | - |    - | ユーザ入力はpython側の実装と判断|
 | joypad    |    6 |    6 | 0 | 100% | |
-| LuaCanvas |   26 |    - | 0 |    - | guiで十分と判断し実装せず　|
-|mainmemory |   40 |    - | 0  |   - | memoryで十分と判断し実装せず |
+| LuaCanvas |   26 |    - | - |    - | guiで十分と判断し実装せず　|
+|mainmemory |   40 |    - | - |    - | memoryで十分と判断し実装せず |
 | memory    |   44 |   43 | 1 | 100% | 非推奨は実装せず |
 |memorysavestate|4 |    4 | 0 | 100% | |
 | movie     |   21 |   21 | 0 | 100% | |

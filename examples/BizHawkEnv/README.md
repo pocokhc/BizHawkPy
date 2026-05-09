@@ -145,10 +145,16 @@ class GameEnvImage(BizHawkEnv):
 
 具体的な実装のサンプルは `examples/BizHawkEnv` 配下を見てください。
 
+# pip
+
+必要なライブラリは以下となります。
+
+- [requirements.txt](examples/BizHawkEnv/requirements.txt)
+
 
 # SRL
 
-サンプル内で使われているSRLは別レポジトリで作っている強化学習フレームワークで以下となります。
-
-Sample code running with the reinforcement learning framework SRL v1.4.6
-https://github.com/pocokhc/simple_distributed_rl
+サンプル内で使われているSRLは別レポジトリで作っている強化学習フレームワークで以下となります。  
+  
+Sample code running with the reinforcement learning framework SRL v1.4.6  
+https://github.com/pocokhc/simple_distributed_rl  

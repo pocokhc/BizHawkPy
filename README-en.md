@@ -157,8 +157,8 @@ For usage examples, see:
 | gui       |   28 |   25 | 0 |  89% | |
 | input     |    3 |    - | - |    - | Handled in Python|
 | joypad    |    6 |    6 | 0 | 100% | |
-| LuaCanvas |   26 |    - | 0 |    - | Not implemented (covered by gui)|
-|mainmemory |   40 |    - | 0  |   - | Not implemented (covered by memory) |
+| LuaCanvas |   26 |    - | - |    - | Not implemented (covered by gui)|
+|mainmemory |   40 |    - | - |    - | Not implemented (covered by memory) |
 | memory    |   44 |   43 | 1 | 100% | Deprecated APIs excluded |
 |memorysavestate|4 |    4 | 0 | 100% | |
 | movie     |   21 |   21 | 0 | 100% | |
