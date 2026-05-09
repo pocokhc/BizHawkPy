@@ -1,5 +1,6 @@
 ﻿import base64
 import json
+import pprint
 import runpy
 import sys
 import traceback
@@ -68,6 +69,12 @@ def _bizhawk_console_print(*args: object, end: str = "\n", **kwargs: object) -> 
     # sys.stderr.flush()
 
 
+def _bizhawk_console_pprint(obj: Any, *, end: str = "\n", **kwargs: Any) -> None:
+    pprint.pprint(obj, stream=sys.stderr, **kwargs)
+    if end != "\n":
+        sys.stderr.write(end)
+
+
 def _dummy_input(*args: object, **kwargs: object) -> None:
     print("Standard input is reserved for communication with BizHawk and cannot be used here.", file=sys.stderr, flush=True)
 
@@ -86,6 +93,7 @@ def _patched_argv(argv: list[str]):
 def run_with_injected_module(path: str, args: list[str]):
     globals_dict = {
         "print": _bizhawk_console_print,
+        "pprint": _bizhawk_console_pprint,
         "input": _dummy_input,
     }
     argv = [path, *args]
