@@ -335,10 +335,8 @@ internal class PyBridge : IDisposable
 
                     if (_emuapi_funcs.TryGetValue(cmd, out var emuapi_func))
                     {
-                        // debug
-                        if (false)
+                        if (_top.isLogDebug)
                         {
-#pragma warning disable CS0162 // 到達できないコードが検出されました
                             logger.Log("--------------------------");
                             logger.Log(cmd + ":" + string.Join(",", args));
                             logger.Log($"method name={emuapi_func.Method.Name}");
@@ -350,13 +348,20 @@ internal class PyBridge : IDisposable
                             {
                                 logger.Log($"param: {p2.ParameterType} {p2.Name}");
                             }
-                            logger.Log("--------------------------");
-#pragma warning restore CS0162 // 到達できないコードが検出されました
+                            logger.Log($"proc  state       : {(ProcState)_state}");
+                            logger.Log($"before cross state: {crossingState}");
                         }
 
                         try
                         {
                             emuapi_func(_top.APIs, this, args);
+
+                            if (_top.isLogDebug)
+                            {
+                                logger.Log($"after cross state: {crossingState}");
+                                logger.Log("--------------------------");
+                            }
+
                             if (crossingState != UpdateCrossingState.None)
                             {
                                 break;
@@ -434,6 +439,11 @@ internal class PyBridge : IDisposable
 
     internal void CmdReturn(object? msg, Type type)
     {
+        if (_top.isLogDebug)
+        {
+            logger.Log($"cmd return({type}): {msg}");
+        }
+
         msg = type switch
         {
             // --- void ---

@@ -79,6 +79,8 @@ public sealed class MainConsole : ToolFormBase, IExternalToolForm, IToolFormAuto
     public int LogWindowWidth { get; set; } = 800;
     [ConfigPersist]
     public int LogWindowHeight { get; set; } = 300;
+    [ConfigPersist]
+    public bool isLogDebug { get; set; } = false;
 
     // UI
     internal readonly UiMenu uiMenu;
@@ -124,10 +126,8 @@ public sealed class MainConsole : ToolFormBase, IExternalToolForm, IToolFormAuto
             uiMenu.NewSessionScripts(GetScriptSessionItems());
             isSessionSaved = conf_isSessionSaved;
 
-            if (uiMenu.StopOnException != null)
-            {
-                uiMenu.StopOnException.Checked = StopOnException;
-            }
+            if (uiMenu.StopOnException != null) uiMenu.StopOnException.Checked = StopOnException;
+            if (uiMenu.isLogDebug != null) uiMenu.isLogDebug.Checked = isLogDebug;
 
             // set window pos
             uiLogWindow.RestoreWindowPosition();
@@ -141,6 +141,11 @@ public sealed class MainConsole : ToolFormBase, IExternalToolForm, IToolFormAuto
     {
         if (MainForm is not Form form)
             throw new InvalidOperationException("MainForm is not Form");
+
+        if (isLogDebug)
+        {
+            Log($"InvokeOnMain: {func.Method.DeclaringType?.Name}.{func.Method.Name}");
+        }
 
         form.BeginInvoke(new Action(() =>
         {

@@ -17,6 +17,7 @@ internal sealed class UiMenu
     private readonly MainConsole _top;
 
     internal ToolStripMenuItem? StopOnException;
+    internal ToolStripMenuItem? isLogDebug;
 
     public UiMenu(MainConsole top)
     {
@@ -95,6 +96,14 @@ internal sealed class UiMenu
             v => _top.StopOnException = v
         );
         menu.DropDownItems.Add(StopOnException);
+
+
+        isLogDebug = CreateToggle(
+            "Enable Debug Logging",
+            () => _top.isLogDebug,
+            v => _top.isLogDebug = v
+        );
+        menu.DropDownItems.Add(isLogDebug);
 
         // add IToolFormAutoConfig
 
