@@ -27,7 +27,7 @@ BizHawkPy は、[BizHawk](https://github.com/TASEmulators/BizHawk) 用の外部�
 ### ビルド時の環境
 
 - windows11
-- BizHawk v2.9.1 / v2.10.0 / v2.11.1
+- BizHawk v2.9.1 / v2.11.1
 
 ### 手順
 

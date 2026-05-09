@@ -21,7 +21,7 @@ function Build-Version {
 }
 
 Build-Version "BizHawk-2.9.1-win-x64"
-Build-Version "BizHawk-2.10-win-x64"
+#Build-Version "BizHawk-2.10-win-x64"
 Build-Version "BizHawk-2.11.1-win-x64"
 
 Write-Host "[DONE] All builds completed"

@@ -27,7 +27,7 @@ There are two installation methods:
 ### Build environment
 
 - windows11
-- BizHawk v2.9.1 / v2.10.0 / v2.11.1
+- BizHawk v2.9.1 / v2.11.1
 
 ### Steps
 
