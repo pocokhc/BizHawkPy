@@ -34,6 +34,10 @@ class GameController(env_client.IGameController):
       # [Gym] gymと同じ定義で実装
       self.action_space = gym.spaces.Discrete(2)
       self.observation_space = gym.spaces.Discrete(2)
+      
+      # [BizHawkPy] option
+      # self.observation_space = Noneの場合、stateを見てこのspaceで自動で設定されます。
+      self.default_observation_space = gym.spaces.Discrete(2)
 
       # [BizHawkPy] rom情報を追加します
       self.rom = "ROMのパス" 
@@ -42,26 +46,32 @@ class GameController(env_client.IGameController):
     # [BizHawkPy] (option)
     # 実行の最初に呼ばれます。
     # info には `py/env_server.py` の _client_config の情報が入っています。
-    def setup(self, info: dict):
+    def setup(self, info: dict) -> None:
         self.debug = info["debug"]
 
+    # [BizHawkPy] (required)
+    def get_state(self) -> Any:
+        return observation_space に準拠した今の状態
+
+    # [BizHawkPy] (option)
+    def get_info(self) -> dict:
+        return {}  # 任意の情報
+
     # [Gym] (required)
-    # エピソードの初期化を定義します。Gymと同じ定義になります。
-    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> tuple[Any, dict]:
-        state = observation_space に準拠した今の状態
-        info = {}  # 任意の情報
-        return state, info
+    # エピソードの初期化を定義します。
+    # Gymとほぼ同じ定義になります。(戻り値が違います)
+    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> None::
+        episodeの初期化処理
 
     # [Gym] (required)
     # 1stepを定義します。Gymと同じ定義になります。
     # actionは action_space に準拠した値が入ります。
-    def step(self, action: Any) -> tuple[Any, float, bool, bool, dict]:
-        state = observation_space に準拠した今の状態
+    def step(self, action: Any) -> tuple[float, bool, bool]:
+        stepを進める処理
         reward = 0.0        # 報酬
         terminated = False  # エピソードが正常に終了した場合にTrue
         truncated = False   # エピソードが異常終了した場合にTrue
-        info = {}  # 任意の情報
-        return state, reward, terminated, truncated, info
+        return reward, terminated, truncated
 
     # ------------------------------------------
     # 以下はSRLフレームワーク用の関数で、全てオプションとなります。
