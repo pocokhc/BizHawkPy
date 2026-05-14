@@ -36,7 +36,7 @@ class GameController(env_client.IGameController):
     def setup(self, info: dict):
         self.debug = info["debug"]
 
-    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> tuple[Any, dict]:
+    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> None:
         client.reboot_core()
 
         # --- title skip
@@ -52,8 +52,6 @@ class GameController(env_client.IGameController):
         self._read_memory()
         if self.debug:
             self._draw_display()
-
-        return self._get_state(), self._get_info()
 
     def _read_memory(self):
         self.mario_x = math.floor((memory.readbyte(0x4AC) + memory.readbyte(0x4AE)) / 2)
@@ -103,7 +101,7 @@ class GameController(env_client.IGameController):
             return 0
         return 1
 
-    def _get_state(self):
+    def get_state(self):
 
         # --- mario y
         mario_y = []
@@ -152,10 +150,10 @@ class GameController(env_client.IGameController):
             enemy,
         )
 
-    def _get_info(self) -> dict:
+    def get_info(self) -> dict:
         return {}
 
-    def step(self, action: Any) -> tuple[Any, float, bool, bool, dict]:
+    def step(self, action: Any) -> tuple[float, bool, bool]:
         Utils.set_keys(
             [
                 "P1 Right",
@@ -171,15 +169,15 @@ class GameController(env_client.IGameController):
 
         # --- goal
         if memory.readbyte(0xE) == 0x4:
-            return self._get_state(), 100, True, False, self._get_info()
+            return 100, True, False
 
         # --- dead
         if memory.readbyte(0xE) == 11:
-            return self._get_state(), -1, True, False, self._get_info()
+            return -1, True, False
         if self.mario_y > 210:
-            return self._get_state(), -1, True, False, self._get_info()
+            return -1, True, False
         if memory.readbyte(0xE) == 0x0:
-            return self._get_state(), -1, True, False, self._get_info()
+            return -1, True, False
 
         reward = -0.01
         if self.stage_mario_x > self._max_stage_mario_x:
@@ -191,9 +189,9 @@ class GameController(env_client.IGameController):
             # 一定時間進まなかったら終わり
             self._stepout += 1
             if self._stepout > 60 * 2:
-                return self._get_state(), -1, True, False, self._get_info()
+                return -1, True, False
 
-        return self._get_state(), reward, False, False, self._get_info()
+        return reward, False, False
 
     def backup(self):
         d = [

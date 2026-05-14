@@ -22,7 +22,8 @@ ObservationTypes = Literal["VALUE", "IMAGE", "BOTH", "RAM"]
 class IGameController(ABC):
     def __init__(self) -> None:
         self.action_space: gym.Space = None  # type: ignore
-        self.observation_space: gym.Space = None  # type: ignore
+        self.observation_space: gym.Space | None = None
+        self.default_observation_space: gym.Space | None = None
         self.rom: str = None  # type: ignore
         self.rom_hash: str = ""  # option
 
@@ -36,12 +37,19 @@ class IGameController(ABC):
     # gym functions
     # ------------------------------------------
     @abstractmethod
-    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> tuple[Any, dict]:
+    def reset(self, seed: Optional[int] = None, options: Optional[dict] = None) -> None:
         raise NotImplementedError()
 
     @abstractmethod
-    def step(self, action: Any) -> tuple[Any, float, bool, bool, dict]:
+    def step(self, action: Any) -> tuple[float, bool, bool]:
         raise NotImplementedError()
+
+    @abstractmethod
+    def get_state(self) -> Any:
+        raise NotImplementedError()
+
+    def get_info(self) -> dict:
+        return {}
 
     # ------------------------------------------
     # SRL functions
@@ -134,8 +142,11 @@ class RPCClient:
 def run(processor: IGameController):
     if processor.action_space is None:
         raise NotImplementedError()
+    if not hasattr(processor, "observation_space"):
+        processor.observation_space = None
     if processor.observation_space is None:
-        raise NotImplementedError()
+        if processor.default_observation_space is None:
+            raise NotImplementedError()
     if processor.rom is None:
         raise NotImplementedError()
 
@@ -187,13 +198,17 @@ def run(processor: IGameController):
     qs_dir = _tmp.name
     qs_data = {}
 
+    # --- 初回reset
+    is_setup_reset = True
+    emu_speed = _reset(processor, pause_before_reset, reset_speed, emu_speed, seed=None, options=None)
+
     # 画像サイズを取得
     img = _get_screenshot(ss_tmp_path)
     image_shape = img.shape if img is not None else (0, 0, 0)
 
     # --- observation_type
     if observation_type == "VALUE":
-        observation_space = processor.observation_space
+        observation_space = _get_value_observation_space(processor)
     elif observation_type == "IMAGE":
         observation_space = gym.spaces.Box(0, 255, shape=image_shape, dtype=np.uint8)
     elif observation_type == "RAM":
@@ -201,7 +216,7 @@ def run(processor: IGameController):
         observation_space = gym.spaces.MultiDiscrete([255] * mem_size, dtype=np.uint8)
     elif observation_type == "BOTH":
         img_space = gym.spaces.Box(0, 255, shape=image_shape, dtype=np.uint8)
-        obs_space = processor.observation_space
+        obs_space = _get_value_observation_space(processor)
         observation_space = gym.spaces.Tuple([img_space, obs_space])
 
     # --- 1st send
@@ -214,13 +229,6 @@ def run(processor: IGameController):
         }
     )
 
-    # --- mode
-    if pause_before_reset:
-        print("Paused. Run with frameadvance.")
-        client.pause()
-    else:
-        client.unpause()
-
     # --- cmd loop
     while True:
         try:
@@ -228,16 +236,23 @@ def run(processor: IGameController):
             cmd = recv.get("cmd", "")
 
             if cmd == "reset":
-                # 1. set speed
-                if reset_speed != emu_speed:
-                    client.speedmode(reset_speed)
-                    emu_speed = reset_speed
+                # 初回のみ、すでにreset済みならresetをskip、ただ引数が違っていればresetする
+                if is_setup_reset:
+                    if recv["seed"] is not None:
+                        is_setup_reset = False
+                    if recv["options"] is not None:
+                        is_setup_reset = False
 
-                # 2. processor.reset
-                state, info = processor.reset(recv["seed"], recv["options"])
+                if is_setup_reset:
+                    is_setup_reset = False
+                else:
+                    emu_speed = _reset(processor, pause_before_reset, reset_speed, emu_speed, recv["seed"], recv["options"])
+
+                # --- 戻り値を作成
+                state = processor.get_state()
                 return_data = {
                     "state": _get_state(observation_type, state, ss_tmp_path, image_shape),
-                    "info": info,
+                    "info": processor.get_info(),
                 }
                 if hasattr(processor, "invalid_actions"):
                     return_data["invalid_actions"] = processor.get_invalid_actions()
@@ -257,7 +272,7 @@ def run(processor: IGameController):
 
                 reward = 0
                 for _ in range(frameskip + 1):
-                    state, r, terminated, truncated, info = processor.step(act)
+                    r, terminated, truncated = processor.step(act)
                     reward += r
                     done = terminated or truncated
                     if done:
@@ -270,12 +285,13 @@ def run(processor: IGameController):
                         emu.frameadvance()
 
                 # --- send obs
+                state = processor.get_state()
                 return_data = {
                     "state": _get_state(observation_type, state, ss_tmp_path, image_shape),
                     "reward": reward,
                     "terminated": terminated,
                     "truncated": truncated,
-                    "info": info,
+                    "info": processor.get_info(),
                 }
                 if hasattr(processor, "invalid_actions"):
                     return_data["invalid_actions"] = processor.get_invalid_actions()
@@ -310,6 +326,42 @@ def run(processor: IGameController):
 
         except Exception:
             rpc.send({"error": traceback.format_exc()})
+
+
+def _get_value_observation_space(processor: IGameController) -> gym.Space:
+    if processor.observation_space is not None:
+        return processor.observation_space
+    assert processor.default_observation_space is not None
+    state = processor.get_state()
+    if isinstance(state, list) or isinstance(state, tuple):
+        arr = [processor.default_observation_space for _ in state]
+        return gym.spaces.Tuple(arr)
+    elif isinstance(state, dict):
+        spaces = {k: processor.default_observation_space for k in state.keys()}
+        return gym.spaces.Dict(spaces)
+    else:
+        return processor.default_observation_space
+
+
+def _reset(processor: IGameController, pause_before_reset, reset_speed, emu_speed, seed, options):
+    # resetは2回呼ばれるので関数でまとめる
+
+    # --- mode
+    if pause_before_reset:
+        print("Paused. Run with frameadvance.")
+        client.pause()
+    else:
+        client.unpause()
+
+    # 1. set speed
+    if reset_speed != emu_speed:
+        client.speedmode(reset_speed)
+        emu_speed = reset_speed
+
+    # 2. processor.reset
+    processor.reset(seed, options)
+
+    return emu_speed
 
 
 def _get_screenshot(ss_tmp_path: str, resize_shape=None) -> "np.ndarray":
