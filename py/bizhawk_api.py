@@ -1671,13 +1671,16 @@ userdata = UserData
 # ================================
 class Utils:
     @staticmethod
-    def set_key(key: str, *, frameadvance: bool = False) -> None:
-        joypad.set({key: True})
+    def set_key(key: str | None, *, frameadvance: bool = False) -> None:
+        if key:
+            joypad.set({key: True})
         if frameadvance:
             emu.frameadvance()
 
     @staticmethod
-    def set_keys(keys: list[str], *, frameadvance: bool = False) -> None:
-        joypad.set({k: True for k in keys})
+    def set_keys(keys: list[str | None], *, frameadvance: bool = False) -> None:
+        keymap = {k: True for k in keys if k}
+        if keymap:
+            joypad.set({k: True for k in keys})
         if frameadvance:
             emu.frameadvance()
