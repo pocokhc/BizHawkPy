@@ -125,7 +125,7 @@ class BizHawkEnv(gym.Env):
         self.rpc.send(self._client_config)
 
         # --- 1st recv
-        res = self.rpc.recv_wait(timeout=60)
+        res = self.rpc.recv_wait()
         self.observation_space = res["observation_space"]
         self.action_space = res["action_space"]
         self.platform = res["platform"]
