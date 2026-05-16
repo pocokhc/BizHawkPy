@@ -7,9 +7,7 @@ def main():
     env.reset()
 
     done = False
-    step = 0
-    while not done:
-        step += 1
+    for step in range(100):
         action = env.action_space.sample()
         observation, reward, terminated, truncated, info = env.step(action)
         done = terminated or truncated
@@ -18,6 +16,7 @@ def main():
         print(f"action     : {action}")
         print(f"reward     : {reward}")
         print(f"done       : {done}")
+        print(f"info       : {info}")
     env.close()
 
 

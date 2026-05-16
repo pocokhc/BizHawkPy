@@ -30,7 +30,7 @@ class IGameController(ABC):
     # ------------------------------------------
     # BizHawkEnv function
     # ------------------------------------------
-    def setup(self, info: dict):
+    def setup(self, info: dict) -> None:
         pass
 
     # ------------------------------------------
